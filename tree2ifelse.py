@@ -43,7 +43,7 @@ def get_python(X, y, cut=jieba.cut, n=100, min_pro=0.75, func_name='function', m
                          special_characters=True)
 
     tree_info = dot_data.getvalue()
-    print(tree_info)
+
     jd = []
     lj = []
     node_info = []
@@ -99,7 +99,7 @@ def get_python(X, y, cut=jieba.cut, n=100, min_pro=0.75, func_name='function', m
             pytnon += "return 1\n"
             PYTNON += pytnon
 
-
+    PYTNON += '\treturn 0\n'
     score = clf.feature_importances_
     a = score
     word = vectorizer.get_feature_names()
