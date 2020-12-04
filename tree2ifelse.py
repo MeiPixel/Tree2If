@@ -11,9 +11,10 @@ def get_word(s, cut):
     return ' '.join(cut(str(s)))
 
 
-def get_python(X, y, cut=jieba.cut, n=100,min_pro=0.75,func_name='function',max_depth=5, min_samples_leaf=50, max_leaf_nodes=20):
+def get_python(X, y, cut=jieba.cut, n=100, min_pro=0.75, func_name='function', max_depth=5, min_samples_leaf=50,
+               max_leaf_nodes=20):
     '''
-    
+
     :param X: 训练文本
     :param y: 训练标签
     :param cut: 分词器
@@ -42,7 +43,7 @@ def get_python(X, y, cut=jieba.cut, n=100,min_pro=0.75,func_name='function',max_
                          special_characters=True)
 
     tree_info = dot_data.getvalue()
-
+    print(tree_info)
     jd = []
     lj = []
     node_info = []
@@ -51,8 +52,6 @@ def get_python(X, y, cut=jieba.cut, n=100,min_pro=0.75,func_name='function',max_
             jd.append(re.search('(\d+) \[label=<(.*?)<', i).group(1, 2))
         if re.search('\d+.*?value = ', i):
             node_info.append(re.search('(\d+).*?value = (\[.*?\])', i).group(1, 2))
-
-
         if re.search('\d+ -> \d+', i):
             lj.append(re.search('(\d+) -> (\d+)', i).group(1, 2))
 
@@ -120,6 +119,7 @@ if __name__ == "__main__":
             xs.append(x)
             ys.append(int(y))
 
-    py,word = get_python(xs,ys)
-    with open('1.py','w',encoding='utf8') as f:
+    py,word = get_python(xs,ys,max_depth=10, min_samples_leaf=20,
+               max_leaf_nodes=50)
+    with open('code.py','w',encoding='utf8') as f:
         f.write(py)
